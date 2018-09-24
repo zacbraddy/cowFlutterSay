@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'cowsay.dart';
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var cowSay = new CowSayBuilder();
+    cowSay.writeln("Hello world");
+    cowSay.writeln("I made a flutter thing");
+    cowSay.writeln("Glorious code reuse!");
+    cowSay.writeln("Woooo 100 days of code!!!");
+
     return  MaterialApp(
       home: Scaffold(
         appBar: AppBar(),
@@ -10,10 +17,9 @@ class MyApp extends StatelessWidget {
           Column(
             children: <Widget>[
               Text(
-                'Should I attempt to remake the cowsay app I made in dart in flutter as well?',
-                style: new TextStyle(fontSize: 30.0),
+                cowSay.toCowSay(),
+                style: new TextStyle(fontSize: 18.0, fontFamily: 'Courier'),
               ),
-              Image.network('https://media.giphy.com/media/3oFzmkkwfOGlzZ0gxi/giphy.gif'),
             ],
           ),
       ),
