@@ -1,18 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' show get;
+import 'dart:convert';
 import 'cowsay.dart';
 
-class MyApp extends StatelessWidget {
+class ChuckCow extends StatefulWidget {
+  createState() {
+    return CowState();
+  }
+}
+
+class CowState extends State<ChuckCow> {
+  CowSayBuilder cowSay = new CowSayBuilder();
+
+  void fetchChuck() async {
+    final response = await get('https://api.chucknorris.io/jokes/random');
+
+    setState(() {
+      cowSay = new CowSayBuilder();
+      cowSay.writeln(json.decode(response.body)['value']);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    var cowSay = new CowSayBuilder();
-    cowSay.writeln("Hello world");
-    cowSay.writeln("I made a flutter thing");
-    cowSay.writeln("Glorious code reuse!");
-    cowSay.writeln("Woooo 100 days of code!!!");
-
     return  MaterialApp(
       home: Scaffold(
         appBar: AppBar(),
+          floatingActionButton: FloatingActionButton(
+            onPressed: fetchChuck,
+            child: Icon(Icons.new_releases),
+          ),
         body: 
           Column(
             children: <Widget>[

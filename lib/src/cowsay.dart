@@ -9,9 +9,26 @@ class CowSayBuilder {
   String bottomRightCornerChar = '/';
   String bottomLeftCornerChar = '\\';
   StringBuffer cowSayBuffer;
+  int maxMessageLength = 25;
+  int lookForSpaceBuffer = 10;
   
   writeln(newCowSay) {
-    cowSays.add(newCowSay);
+    var textToAdd = newCowSay;
+    while(textToAdd.length > maxMessageLength) {
+      final startOfSearchIndex = maxMessageLength - lookForSpaceBuffer;
+
+      var endOfSearchIndex = maxMessageLength + lookForSpaceBuffer;
+      if (endOfSearchIndex >= textToAdd.length) endOfSearchIndex = textToAdd.length - 1;
+
+      var splitAt = textToAdd.substring(startOfSearchIndex, endOfSearchIndex).indexOf(new RegExp(r' '));
+      if (splitAt == -1) splitAt = maxMessageLength;
+      splitAt += startOfSearchIndex;
+
+      cowSays.add(textToAdd.substring(0, splitAt));
+      textToAdd = textToAdd.substring(splitAt);
+      if (textToAdd.substring(0, 1) == ' ') textToAdd = textToAdd.substring(1);
+    }
+    cowSays.add(textToAdd);
   }
   
   toCowSay() {
